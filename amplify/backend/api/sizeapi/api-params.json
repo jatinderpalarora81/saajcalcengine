@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/size",
+            "lambdaFunction": "sizecalc",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/size"
+        }
+    ],
+    "resourceName": "sizeapi",
+    "apiName": "sizeapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "sizecalc"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-amplify293f898b95394-staging-111720-authRole",
+        "unAuthRoleName": "amplify-amplify293f898b95394-staging-111720-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "sizecalc",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

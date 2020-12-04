@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Button, Col, Container, Form, FormControl, Image, InputGroup, Row} from "react-bootstrap";
 import pic from '../images/pic.svg';
 import {calculateSize} from "../util/sizecalcutil";
-
+import {API} from 'aws-amplify'
 export class InputPage extends React.Component{
 
     constructor() {
@@ -15,10 +15,18 @@ export class InputPage extends React.Component{
             waist:"",
             hips:''
         }
+
+
     }
 
+    async printit(){
+        const r = await API.get('sizeapi', '/size');
+        console.log(r)
+        alert(r);
+    }
 
     render(){
+        this.printit();
         return (<Container >
             <Row>
                 <h3>Saaj Designs</h3>
