@@ -22,7 +22,7 @@ export class InputPage extends React.Component{
     async printit(){
         const r = await API.get('sizeapi', '/size');
         console.log(r)
-        alert(r);
+        alert(r.success);
     }
 
     render(){
