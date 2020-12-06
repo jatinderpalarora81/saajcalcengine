@@ -22,18 +22,6 @@
       ]
     }
   },
-  "auth": {
-    "saajcalcenginea75e057e": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
-  "storage": {
-    "saajdesigns": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
-    }
-  }
+  "auth": {},
+  "storage": {}
 }
