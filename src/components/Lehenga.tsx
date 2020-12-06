@@ -10,19 +10,20 @@ import pic from '../images/pic.svg';
 
 export class Lehenga extends React.Component<any, any>{
     private values: any;
-
+    private logo:any;
 
     constructor(props:any) {
         super(props);
         this.values = {};
         this.state = {}
-        // Storage.put("Saaj", pic).then((e)=>{
-        //     console.log("Stored ",e)
-        // })
+        this.logo = require('../images/cir.png');
+         Storage.put("cir.png", this.logo).then((e)=>{
+            console.log("Stored ",e)
+         })
     }
 
     componentDidMount(): void {
-        Storage.get("saaj5.jpg").then( (data) => {
+        Storage.get("cir.png").then( (data) => {
                console.log(data)
                 this.setState(
                 {
