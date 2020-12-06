@@ -3,7 +3,7 @@ import * as React from "react";
 import {LehengaStyle, LenengaCholi} from "../typedef/style";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
-import {Storage} from "aws-amplify"
+// import {Storage} from "aws-amplify"
 import pic from "../images/pic.svg";
 
 export class Lehenga extends React.Component<any, any>{
@@ -16,16 +16,16 @@ export class Lehenga extends React.Component<any, any>{
         this.state = {}
     }
 
-    componentDidMount(): void {
-        Storage.get("saaj3.4.jpg").then( (data) => {
-               console.log(data)
-                this.setState(
-                {
-                    url : data
-                })
-            }
-        )
-    }
+    // componentDidMount(): void {
+    //     Storage.get("saaj3.4.jpg").then( (data) => {
+    //            console.log(data)
+    //             this.setState(
+    //             {
+    //                 url : data
+    //             })
+    //         }
+    //     )
+    // }
 
     render(): React.ReactNode {
         return (
@@ -82,10 +82,10 @@ export class Lehenga extends React.Component<any, any>{
                     </Col>
                 </Form.Row>
 
-                <Col>
-                    {/*<img src={Jumbotron} className="App-logo" alt="logo" />*/}
-                    <img style={{height:'auto',width:'100%'}} src={ this.state.url }/>
-                </Col>
+                {/*<Col>*/}
+                {/*    /!*<img src={Jumbotron} className="App-logo" alt="logo" />*!/*/}
+                {/*    <img style={{height:'auto',width:'100%'}} src={ this.state.url }/>*/}
+                {/*</Col>*/}
 
                 <Button style={{marginTop:'10px', marginLeft:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : "+calculateSize(this.values))}>
                     Submit
