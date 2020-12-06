@@ -4,7 +4,9 @@ import {LehengaStyle, LenengaCholi} from "../typedef/style";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify"
-import pic from "../images/pic.svg";
+//import saaj4 from '../images/saaj4.JPG';
+import pic from '../images/pic.svg';
+
 
 export class Lehenga extends React.Component<any, any>{
     private values: any;
@@ -14,10 +16,13 @@ export class Lehenga extends React.Component<any, any>{
         super(props);
         this.values = {};
         this.state = {}
+        // Storage.put("Saaj", pic).then((e)=>{
+        //     console.log("Stored ",e)
+        // })
     }
 
     componentDidMount(): void {
-        Storage.get("saaj3.4.jpg").then( (data) => {
+        Storage.get("saaj5.jpg").then( (data) => {
                console.log(data)
                 this.setState(
                 {
