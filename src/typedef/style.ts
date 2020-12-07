@@ -16,7 +16,12 @@ export type LehengaStyle ={
 }
 
 type KameezLengthStyle = {
-   kameezLength:number
+    bust:number,
+    shoulderLength: number,
+    aroundArm:number,
+    armHoleSize:number,
+    waist:number
+    kameezLength:number
 }
 
 export type KammezStyle = CholiStyle & KameezLengthStyle;
