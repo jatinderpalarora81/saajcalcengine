@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, ButtonGroup, Col, Container, Form, Row, ToggleButton} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify";
 
@@ -33,13 +33,12 @@ export class SalwarKameez extends React.Component<any, any>{
        return (
            <Container style={{marginTop:'25px'}}>
                <Row>
-                   <Col md={6} >
                        <Form>
                            <h4>Kameez Fitting (in inches):
                                <ButtonGroup toggle className="mb-2">
                                    <ToggleButton
                                        type="checkbox"
-                                       variant="secondary"
+                                       variant="lnik"
                                        checked={this.state.showKameez}
                                        value="1"
                                        onChange={(e) => {this.setState({showKameez: e.currentTarget.checked, showSalwar: false}); }}
@@ -85,7 +84,7 @@ export class SalwarKameez extends React.Component<any, any>{
                                <ButtonGroup toggle className="mb-2">
                                    <ToggleButton
                                        type="checkbox"
-                                       variant="secondary"
+                                       variant="link"
                                        checked={this.state.showSalwar}
                                        value="1"
                                        onChange={(e) => {this.setState({showSalwar: e.currentTarget.checked, showKameez: false}); }}
@@ -131,12 +130,24 @@ export class SalwarKameez extends React.Component<any, any>{
                                Close
                            </Button>
                        </Form>
-                   </Col>
-                   <Col >
+               </Row>
+
+               <Modal show={this.state.showKameez || this.state.showSalwar} >
+                   <Modal.Header closeButton>
+                       <Modal.Title>Kammez Salwar Image</Modal.Title>
+                   </Modal.Header>
+                   <Modal.Body>
                        { this.state.showKameez && this.state.url1 != '' && <img style={{height:'auto',width:'50%'}} src={ this.state.url1 }/>}
                        { this.state.showSalwar && this.state.url2 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url2 }/>}
-                   </Col>
-               </Row>
+                   </Modal.Body>
+                   <Modal.Footer>
+                       <Button variant="primary" onClick={()=> this.setState({showKameez:false, showSalwar:false})}>
+                           Close
+                       </Button>
+
+                   </Modal.Footer>
+               </Modal>
+
            </Container>
        )
     }
