@@ -1,28 +1,23 @@
 
 import * as React from "react";
-import {LehengaStyle, LenengaCholi} from "../typedef/style";
+import {CommonPros, LenengaCholi} from "../typedef/style";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
-import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify"
-import BLOUSE from '../images/BLOUSE.png';
+import {calculateLehengaSize} from "../util/sizecalcutil";
 
 
-export class Lehenga extends React.Component<any, any>{
-     private values: any;
-     private logo:any;
+export class Lehenga extends React.Component<CommonPros, any>{
+     private values: LenengaCholi|any;
 
     constructor(props:any) {
         super(props);
         this.values = {};
         this.state = {showCholi:false, showLehanga:false}
-        //   Storage.put("BLOUSE.png", this.logo).then((e)=>{
-        //     console.log("Stored ",e)
-        //  })
+
     }
 
     componentDidMount(): void {
         Storage.get("BLOUSE.png").then( (data) => {
-                //console.log("URL FROM STORAGE ",data)
                 this.setState(
                  {
                      url1 :  data
@@ -30,7 +25,6 @@ export class Lehenga extends React.Component<any, any>{
              }
         ).catch(er => console.log('Error',er))
         Storage.get("SKIRT.png").then( (data) => {
-                //console.log("URL FROM STORAGE ",data)
                 this.setState(
                     {
                         url2 :  data
@@ -39,11 +33,17 @@ export class Lehenga extends React.Component<any, any>{
         ).catch(er => console.log('Error',er))
     }
 
+    validate(){
+        if(this.props.validateInfo()){
+            alert("Your reccomended size is : "+calculateLehengaSize(this.values));
+        }
+    }
+
     render(): React.ReactNode {
         return( <Container style={{marginTop:'25px'}}>
             <Row>
                     <Form>
-                        <h4>Choli Fitting (in inches):
+                        <h5>Choli Fitting (in inches):
                         <ButtonGroup toggle className="mb-2">
                             <ToggleButton
                                 type="checkbox"
@@ -54,16 +54,16 @@ export class Lehenga extends React.Component<any, any>{
                             >
                                 How to measure?
                             </ToggleButton>
-                        </ButtonGroup></h4>
+                        </ButtonGroup></h5>
                         <Form.Row className="align-items-center">
                             <Col >
-                                <Form.Label>Bust Size</Form.Label>
+                                <Form.Label>Bust Size:</Form.Label>
                                 <Form.Control type="number"
                                               onChange={e=>{this.values.bust= e.target.value}}
                                 />
                             </Col>
                             <Col >
-                                <Form.Label>Shoulder Length</Form.Label>
+                                <Form.Label>Shoulder Length:</Form.Label>
                                 <Form.Control type="number" onChange={e=>{this.values.shoulderLength= e.target.value}}
                                 />
 
@@ -81,13 +81,13 @@ export class Lehenga extends React.Component<any, any>{
 
                             </Col>
                             <Col>
-                                <Form.Label>AroundArm</Form.Label>
+                                <Form.Label>Around Arm Size:</Form.Label>
                                 <Form.Control type="number" onChange={e=>{this.values.aroundArm= e.target.value}}
                                 />
                             </Col>
                         </Form.Row>
 
-                        <h4 style={{marginTop:'25px'}}>Lehenga Fitting (in inches):
+                        <h5 style={{marginTop:'25px'}}>Lehenga Fitting (in inches):
                             <ButtonGroup toggle >
                             <ToggleButton
                                 type="checkbox"
@@ -98,11 +98,11 @@ export class Lehenga extends React.Component<any, any>{
                             >
                                 How to measure?
                             </ToggleButton> </ButtonGroup>
-                            </h4>
+                            </h5>
                         <Form.Row className="align-items-center">
                             <Col >
                                 <Form.Label>Around Hips Size: </Form.Label>
-                                <Form.Control type="number"    onChange={e=>{this.values.aroundHips= e.target.value}}
+                                <Form.Control type="number"  onChange={e=>{this.values.aroundHips= e.target.value}}
                                 />
                             </Col>
                             <Col >
@@ -117,18 +117,12 @@ export class Lehenga extends React.Component<any, any>{
                             </Col>
                         </Form.Row>
 
-                        <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : "+calculateSize(this.values))}>
+                        <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>this.validate()}>
                             Submit
                         </Button>
 
-                        <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>
-                            Close
-                        </Button>
+
                     </Form>
-                {/*<Col>*/}
-                {/*    { this.state.showCholi && this.state.url1 != '' && <img style={{height:'auto',width:'60%'}} src={ this.state.url1 }/>}*/}
-                {/*    { this.state.showLehanga && this.state.url2 != '' && <img style={{height:'auto',width:'60%'}} src={ this.state.url2 }/>}*/}
-                {/*</Col>*/}
             </Row>
             <Modal show={this.state.showCholi || this.state.showLehanga} >
                 <Modal.Header closeButton>

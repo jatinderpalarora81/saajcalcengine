@@ -1,14 +1,12 @@
 
 import * as React from "react";
-import {LehengaStyle, LenengaCholi} from "../typedef/style";
+import {CommonPros, LenengaCholi} from "../typedef/style";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
-import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify"
-import BLOUSE from '../images/BLOUSE.png';
 
 
-export class Blouse extends React.Component<any, any>{
-    private values: any;
+export class Blouse extends React.Component<CommonPros, any>{
+    private values: any
 
     constructor(props:any) {
         super(props);
@@ -32,7 +30,7 @@ export class Blouse extends React.Component<any, any>{
             <Container style={{marginTop:'15px'}}>
                 <Row>
                     <Form>
-                        <h4>Blouse Fitting (in inches):
+                        <h5>Blouse Fitting (in inches):
                             <ButtonGroup toggle className="mb-2">
                                 <ToggleButton
                                     type="checkbox"
@@ -40,10 +38,10 @@ export class Blouse extends React.Component<any, any>{
                                     checked={this.state.showBlouse}
                                     value="1"
                                     onChange={(e) => {this.setState({showBlouse: e.currentTarget.checked}); }}>
-                                    How to measure
+                                    How to measure?
                                 </ToggleButton>
                             </ButtonGroup>
-                        </h4>
+                        </h5>
                         <Form.Row className="align-items-center">
                             <Col  className="my-1">
                                 <Form.Label>Bust</Form.Label>
@@ -77,13 +75,11 @@ export class Blouse extends React.Component<any, any>{
 
                         </Form.Row>
 
-                        <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : "+calculateSize(this.values))}>
+                        <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : FREE SIZE ")}>
                             Submit
                         </Button>
 
-                        <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>
-                            Close
-                        </Button>
+
                     </Form>
                 </Row>
 

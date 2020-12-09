@@ -9,7 +9,7 @@ export type CholiStyle ={
 
 export type LenengaCholi = LehengaStyle & CholiStyle;
 
-export type LehengaStyle ={
+type LehengaStyle ={
     aroundHips:number,
     lehengaLength:number,
     aroundWaist:number
@@ -32,4 +32,15 @@ export type SalwarStyle ={
     aroundWaist:number,
     aroundKnee:number,
     aroundCalf:number
+}
+
+export type Info = {
+    name:string,
+    email:string,
+    phone:string
+}
+
+export interface CommonPros {
+    getInfo(): Info,
+    validateInfo():boolean
 }

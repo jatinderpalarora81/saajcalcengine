@@ -5,25 +5,24 @@ import {Lehenga} from "./Lehenga";
 import {Storage} from "aws-amplify"
 import {SalwarKameez} from "./SalwarKameez";
 import {Blouse} from "./Blouse";
+import {Info} from "../typedef/style";
 
 interface InputState {
-    fileUrl:string,
-    selection:string
+    fileUrl:string
 }
 
 export class InputPage extends React.Component<any, InputState>{
-    values = {
-        name:"",
-        age:"",
-        height:"",
-        bust:"",
-        waist:"",
-        hips:''
-    }
+
+   private values:Info;
 
     constructor(props:any) {
         super(props);
-        this.state = {fileUrl:'', selection:'0'};
+        this.state = {fileUrl:''};
+        this.values = {
+            name:"",
+            email:"",
+            phone:""
+        }
     }
     componentDidMount(): void {
         Storage.get("saaj3.4.jpg").then(data =>{
@@ -38,6 +37,17 @@ export class InputPage extends React.Component<any, InputState>{
         const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
         console.log(r)
         alert(r.body.name);
+    }
+
+    getInfo(){
+        return this.values;
+    }
+    validateInfo():boolean{
+        if(this.values.email=== "" && this.values.phone === ""){
+            alert(" Please provide your email id or phone number, this will help us to serve you better.")
+            return false;
+        }
+        return true;
     }
 
     render(){
@@ -58,20 +68,19 @@ export class InputPage extends React.Component<any, InputState>{
                                 <Col sm={3} className="my-1">
                                     <Form.Label>Email Id</Form.Label>
                                     <Form.Control type="email" placeholder="email"
-                                                  onChange={e=>{this.values.name= e.target.value}}
+                                                  onChange={e=>{this.values.email= e.target.value}}
                                     />
-
                                 </Col>
                                 <Col xs="auto" className="my-1">
                                     <Form.Label>Phone Num</Form.Label>
-                                    <Form.Control type="number" placeholder="Phone"
-                                                  onChange={e=>{this.values.name= e.target.value}}
+                                    <Form.Control type="test" placeholder="Phone"
+                                                  onChange={e=>{this.values.phone= e.target.value}}
                                     />
                                 </Col>
                             </Form.Row>
                         </Form>
             </Row>
-            <Row >
+            <Row ><h3> Choose a Pattern </h3>
                             <Accordion defaultActiveKey="-1" style={{width:'80vw', marginBottom:'20px'}} >
                                 <Card>
                                     <Card.Header>
@@ -80,7 +89,7 @@ export class InputPage extends React.Component<any, InputState>{
                                         </Accordion.Toggle>
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="0">
-                                        <Card.Body><Lehenga/></Card.Body>
+                                        <Card.Body><Lehenga getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
                                 <Card>
@@ -90,7 +99,7 @@ export class InputPage extends React.Component<any, InputState>{
                                         </Accordion.Toggle>
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="1">
-                                        <Card.Body><Blouse/></Card.Body>
+                                        <Card.Body><Blouse getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
                                 <Card>
@@ -100,7 +109,7 @@ export class InputPage extends React.Component<any, InputState>{
                                         </Accordion.Toggle>
                                     </Card.Header>
                                     <Accordion.Collapse eventKey="2">
-                                        <Card.Body><SalwarKameez/></Card.Body>
+                                        <Card.Body> <SalwarKameez getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
                             </Accordion>
@@ -126,6 +135,11 @@ export class InputPage extends React.Component<any, InputState>{
             {/*    {this.state.selection === '1' ? (<Lehenga/>) : this.state.selection === '2' ? (<SalwarKameez/>) : this.state.selection === '3' ? <Blouse/> : <div/>}*/}
 
             {/*</Row>*/}
+            <Row>
+                <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>
+                    Close
+                </Button>
+            </Row>
         </Container>);
     }
 

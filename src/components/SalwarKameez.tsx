@@ -1,9 +1,9 @@
 import * as React from "react";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
-import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify";
+import {CommonPros} from "../typedef/style";
 
-export class SalwarKameez extends React.Component<any, any>{
+export class SalwarKameez extends React.Component<CommonPros, any>{
     private values: any;
 
     constructor(props:any) {
@@ -34,19 +34,19 @@ export class SalwarKameez extends React.Component<any, any>{
            <Container style={{marginTop:'25px'}}>
                <Row>
                        <Form>
-                           <h4>Kameez Fitting (in inches):
+                           <h5>Kameez Fitting (in inches):
                                <ButtonGroup toggle className="mb-2">
                                    <ToggleButton
                                        type="checkbox"
-                                       variant="lnik"
+                                       variant="link"
                                        checked={this.state.showKameez}
                                        value="1"
                                        onChange={(e) => {this.setState({showKameez: e.currentTarget.checked, showSalwar: false}); }}
                                    >
-                                       How to measure
+                                       How to measure?
                                    </ToggleButton>
                                </ButtonGroup>
-                           </h4>
+                           </h5>
 
                            <Form.Row className="align-items-center">
                                <Col>
@@ -80,7 +80,7 @@ export class SalwarKameez extends React.Component<any, any>{
                                </Col>
                            </Form.Row>
 
-                           <h4 style={{marginTop:'25px'}}>Salwar Fitting (in inches):
+                           <h5 style={{marginTop:'25px'}}>Salwar Fitting (in inches):
                                <ButtonGroup toggle className="mb-2">
                                    <ToggleButton
                                        type="checkbox"
@@ -89,10 +89,10 @@ export class SalwarKameez extends React.Component<any, any>{
                                        value="1"
                                        onChange={(e) => {this.setState({showSalwar: e.currentTarget.checked, showKameez: false}); }}
                                    >
-                                       How to measure
+                                       How to measure?
                                    </ToggleButton>
                                </ButtonGroup>
-                           </h4>
+                           </h5>
                            <Form.Row className="align-items-center">
                                <Col>
                                    <Form.Label>Around Thigh Size: </Form.Label>
@@ -122,13 +122,10 @@ export class SalwarKameez extends React.Component<any, any>{
 
                            </Form.Row>
 
-                           <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : "+calculateSize(this.values))}>
+                           <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : Free Size")}>
                                Submit
                            </Button>
 
-                           <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>
-                               Close
-                           </Button>
                        </Form>
                </Row>
 
