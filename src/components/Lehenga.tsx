@@ -1,7 +1,7 @@
 
 import * as React from "react";
 import {LehengaStyle, LenengaCholi} from "../typedef/style";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Container, Form, Row, ToggleButton} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify"
 import BLOUSE from '../images/BLOUSE.png';
@@ -14,7 +14,7 @@ export class Lehenga extends React.Component<any, any>{
     constructor(props:any) {
         super(props);
         this.values = {};
-        this.state = {}
+        this.state = {showCholi:false, showLehanga:false}
         //   Storage.put("BLOUSE.png", this.logo).then((e)=>{
         //     console.log("Stored ",e)
         //  })
@@ -45,7 +45,18 @@ export class Lehenga extends React.Component<any, any>{
                 <Row>
                     <Col md={5} >
                         <Form>
-                            <h4>Choli Fitting (in inches): </h4>
+                            <h4>Choli Fitting (in inches):
+                            <ButtonGroup toggle className="mb-2">
+                                <ToggleButton
+                                    type="checkbox"
+                                    variant="secondary"
+                                    checked={this.state.showCholi}
+                                    value="1"
+                                    onChange={(e) => {this.setState({showCholi: e.currentTarget.checked, showLehanga: false}); }}
+                                >
+                                    How to measure
+                                </ToggleButton>
+                            </ButtonGroup></h4>
                             <Form.Row className="align-items-center">
                                 <Col >
                                     <Form.Label>Bust Size</Form.Label>
@@ -78,7 +89,18 @@ export class Lehenga extends React.Component<any, any>{
                                 </Col>
                             </Form.Row>
 
-                            <h4 style={{marginTop:'25px'}}>Lehenga Fitting (in inches): </h4>
+                            <h4 style={{marginTop:'25px'}}>Lehenga Fitting (in inches):
+                                <ButtonGroup toggle className="mb-2">
+                                <ToggleButton
+                                    type="checkbox"
+                                    variant="secondary"
+                                    checked={this.state.showLehanga}
+                                    value="1"
+                                    onChange={(e) => {this.setState({showCholi: false, showLehanga: e.currentTarget.checked});}}
+                                >
+                                    How to measure
+                                </ToggleButton> </ButtonGroup>
+                                </h4>
                             <Form.Row className="align-items-center">
                                 <Col >
                                     <Form.Label>Around Hips Size: </Form.Label>
@@ -107,10 +129,8 @@ export class Lehenga extends React.Component<any, any>{
                         </Form>
                     </Col>
                     <Col>
-                        { this.state.url1 != '' && <img style={{height:'auto',width:'80%'}} src={ this.state.url1 }/>}
-                    </Col>
-                    <Col>
-                     { this.state.url2 != '' && <img style={{height:'auto',width:'80%'}} src={ this.state.url2 }/>}
+                        { this.state.showCholi && this.state.url1 != '' && <img style={{height:'auto',width:'60%'}} src={ this.state.url1 }/>}
+                        { this.state.showLehanga && this.state.url2 != '' && <img style={{height:'auto',width:'60%'}} src={ this.state.url2 }/>}
                     </Col>
                 </Row>
             </Container>

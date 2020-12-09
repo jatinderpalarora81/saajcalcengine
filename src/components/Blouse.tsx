@@ -1,7 +1,7 @@
 
 import * as React from "react";
 import {LehengaStyle, LenengaCholi} from "../typedef/style";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Container, Form, Row, ToggleButton} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify"
 import BLOUSE from '../images/BLOUSE.png';
@@ -13,9 +13,9 @@ export class Blouse extends React.Component<any, any>{
     constructor(props:any) {
         super(props);
         this.values = {};
-        this.state = {}
+        this.state = {showBlouse:false}
 
-    }
+        }
 
     componentDidMount(): void {
         Storage.get("BLOUSE.png").then( (data) => {
@@ -33,7 +33,19 @@ export class Blouse extends React.Component<any, any>{
                 <Row>
                     <Col>
                         <Form>
-                            <h4>Blouse Fitting (in inches): </h4>
+                            <h4>Blouse Fitting (in inches):
+                                <ButtonGroup toggle className="mb-2">
+                                    <ToggleButton
+                                        type="checkbox"
+                                        variant="secondary"
+                                        checked={this.state.showBlouse}
+                                        value="1"
+                                        onChange={(e) => {this.setState({showBlouse: e.currentTarget.checked}); }}
+                                    >
+                                        How to measure
+                                    </ToggleButton>
+                                </ButtonGroup>
+                            </h4>
                             <Form.Row className="align-items-center">
                                 <Col  className="my-1">
                                     <Form.Label>Bust</Form.Label>
@@ -77,7 +89,7 @@ export class Blouse extends React.Component<any, any>{
                         </Form>
                     </Col>
                     <Col>
-                        { this.state.url1 != '' && <img style={{height:'auto',width:'60%'}} src={ this.state.url1 }/>}
+                        { this.state.showBlouse && this.state.url1 != '' && <img style={{height:'auto',width:'70%'}} src={ this.state.url1 }/>}
                     </Col>
                 </Row>
             </Container>

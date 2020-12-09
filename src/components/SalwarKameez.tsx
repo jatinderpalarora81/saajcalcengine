@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Container, Form, Row, ToggleButton} from "react-bootstrap";
 import {calculateSize} from "../util/sizecalcutil";
 import {Storage} from "aws-amplify";
 
@@ -9,7 +9,7 @@ export class SalwarKameez extends React.Component<any, any>{
     constructor(props:any) {
         super(props);
         this.values = {};
-        this.state = {}
+        this.state = {showKameez:false, showSalwar:false}
     }
     componentDidMount(): void {
         Storage.get("kameez.jpg").then( (data) => {
@@ -35,7 +35,19 @@ export class SalwarKameez extends React.Component<any, any>{
                <Row>
                    <Col md={6} >
                        <Form>
-                           <h4>Kameez Fitting (in inches): </h4>
+                           <h4>Kameez Fitting (in inches):
+                               <ButtonGroup toggle className="mb-2">
+                                   <ToggleButton
+                                       type="checkbox"
+                                       variant="secondary"
+                                       checked={this.state.showKameez}
+                                       value="1"
+                                       onChange={(e) => {this.setState({showKameez: e.currentTarget.checked, showSalwar: false}); }}
+                                   >
+                                       How to measure
+                                   </ToggleButton>
+                               </ButtonGroup>
+                           </h4>
 
                            <Form.Row className="align-items-center">
                                <Col>
@@ -69,7 +81,19 @@ export class SalwarKameez extends React.Component<any, any>{
                                </Col>
                            </Form.Row>
 
-                           <h4 style={{marginTop:'25px'}}>Salwar Fitting (in inches): </h4>
+                           <h4 style={{marginTop:'25px'}}>Salwar Fitting (in inches):
+                               <ButtonGroup toggle className="mb-2">
+                                   <ToggleButton
+                                       type="checkbox"
+                                       variant="secondary"
+                                       checked={this.state.showSalwar}
+                                       value="1"
+                                       onChange={(e) => {this.setState({showSalwar: e.currentTarget.checked, showKameez: false}); }}
+                                   >
+                                       How to measure
+                                   </ToggleButton>
+                               </ButtonGroup>
+                           </h4>
                            <Form.Row className="align-items-center">
                                <Col>
                                    <Form.Label>Around Thigh Size: </Form.Label>
@@ -109,11 +133,8 @@ export class SalwarKameez extends React.Component<any, any>{
                        </Form>
                    </Col>
                    <Col >
-                       { this.state.url1 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url1 }/>}
-                   </Col>
-                   <Col md={3}>
-                       { this.state.url2 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url2 }/>}
-
+                       { this.state.showKameez && this.state.url1 != '' && <img style={{height:'auto',width:'50%'}} src={ this.state.url1 }/>}
+                       { this.state.showSalwar && this.state.url2 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url2 }/>}
                    </Col>
                </Row>
            </Container>
