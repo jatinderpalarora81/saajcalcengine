@@ -47,6 +47,7 @@ export class InputPage extends React.Component<any, InputState>{
             alert(" Please provide your email id or phone number, this will help us to serve you better.")
             return false;
         }
+        this.printit().then((i)=> console.log('Send'));
         return true;
     }
 

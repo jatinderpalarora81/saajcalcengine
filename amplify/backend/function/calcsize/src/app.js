@@ -11,6 +11,7 @@ See the License for the specific language governing permissions and limitations 
 
 var express = require('express')
 var bodyParser = require('body-parser')
+var nodemailer = require('nodemailer')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 // declare a new express app
@@ -30,6 +31,23 @@ app.use(function(req, res, next) {
  * Example get method *
  **********************/
 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mailtosaajdesigns@gmail.com',
+    pass: 'Oct@2020'
+  }
+});
+
+var mailOptions = {
+  from: 'mailtosaajdesigns@gmail.com',
+  to: 'arora.jatinder@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+
+
 app.get('/size', function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
@@ -45,8 +63,17 @@ app.get('/size/*', function(req, res) {
 ****************************/
 
 app.post('/size', function(req, res) {
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log('Email NOT SENT ERROR:')
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+  console.log('Email sent after that: ' );
+  res.json({success: 'post call succeed!', url: req.url, body: {name: 'mail sent'} })
 });
 
 app.post('/size/*', function(req, res) {

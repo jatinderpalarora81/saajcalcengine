@@ -1,13 +1,13 @@
 
 import * as React from "react";
-import {CommonPros, LenengaCholi} from "../typedef/style";
+import {CommonPros, LehengaCholiStyle} from "../typedef/style";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
 import {Storage} from "aws-amplify"
 import {calculateLehengaSize} from "../util/sizecalcutil";
 
 
 export class Lehenga extends React.Component<CommonPros, any>{
-     private values: LenengaCholi|any;
+     private values: LehengaCholiStyle|any;
 
     constructor(props:any) {
         super(props);

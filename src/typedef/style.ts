@@ -1,37 +1,55 @@
-export type CholiStyle ={
-    bust:number,
-    shoulderLength: number,
-    aroundArm:number,
-    blouseLength:number,
-    armHoleSize:number,
-    waist:number
+export enum Size {
+    MIN = 'MIN',
+    XS = 'XS',
+    S= 'S',
+    M = 'M',
+    L='M',
+    XL='XL',
+    XXL='XXL',
+    MAX='MAX'
 }
 
-export type LenengaCholi = LehengaStyle & CholiStyle;
+
+type TopStyle = {
+    size?:Size,
+    bust:number,
+    shoulderLength?: number,
+    sleeveAround?:number,
+    sleeveLength?:number,
+    armHoleSize?:number,
+    aroundWaistForTop:number,
+    topLength : number
+}
+
+type BottomStyle = {
+    aroundHips:number,
+    aroundThighSize: number,
+    aroundCalfSize: number,
+    aroundKneeSize: number,
+    aroundWaistSize: number,
+    InseamLength : number,
+    OutseamLength : number
+}
+
+export type BlouseStyle = TopStyle;
+export type CholiStyle = TopStyle;
+
 
 type LehengaStyle ={
     aroundHips:number,
     lehengaLength:number,
     aroundWaist:number
 }
+export type LehengaCholiStyle = LehengaStyle & CholiStyle;
 
-type KameezLengthStyle = {
-    bust:number,
-    shoulderLength: number,
-    aroundArm:number,
-    armHoleSize:number,
-    waist:number
-    kameezLength:number
+export type KameezStyle = {
+    topStyle: TopStyle,
+    hipsSize: number
 }
+export type SalwarStyle = BottomStyle;
 
-export type KammezStyle = CholiStyle & KameezLengthStyle;
-
-export type SalwarStyle ={
-    aroundThigh:number,
-    salwarLength:number,
-    aroundWaist:number,
-    aroundKnee:number,
-    aroundCalf:number
+export type PatternType<TYPE> = {
+   types: TYPE[]
 }
 
 export type Info = {
@@ -43,4 +61,14 @@ export type Info = {
 export interface CommonPros {
     getInfo(): Info,
     validateInfo():boolean
+}
+export enum SizeStatus{
+    UNKNOWN,
+    CALCULATED,
+    INVALID
+}
+export type SizeDiffMessage = {
+    diff? : number,
+    message? : string,
+    sizeStatus: SizeStatus
 }
