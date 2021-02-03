@@ -11,13 +11,18 @@ See the License for the specific language governing permissions and limitations 
 
 var express = require('express')
 var bodyParser = require('body-parser')
-var nodemailer = require('nodemailer')
+// var nodemailer = require('nodemailer')
+// var ses = require('nodemailer-ses-transport');
+var AWS = require('aws-sdk');
+
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 // declare a new express app
 var app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
+
+
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
@@ -31,20 +36,7 @@ app.use(function(req, res, next) {
  * Example get method *
  **********************/
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'mailtosaajdesigns@gmail.com',
-    pass: 'Oct@2020'
-  }
-});
 
-var mailOptions = {
-  from: 'mailtosaajdesigns@gmail.com',
-  to: 'arora.jatinder@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
 
 
 
@@ -63,17 +55,67 @@ app.get('/size/*', function(req, res) {
 ****************************/
 
 app.post('/size', function(req, res) {
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log('Email NOT SENT ERROR:')
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-  // Add your code here
-  console.log('Email sent after that: ' );
-  res.json({success: 'post call succeed!', url: req.url, body: {name: 'mail sent'} })
+
+  var params= {
+    Message : 'some messag',
+    TopicARN: 'arn:aws:sns:us-east-2:899593485785:S3Update'
+  }
+  let status = "no status "
+  AWS.config.update({region: 'us-east-2'})
+
+  var publishTextParam  = new AWS.SNS( {apiVersion: '2010-03-31'}).createTopic({Name: 'NewTopic1'}).promise();
+
+  publishTextParam.then( (r)=>{
+    status = ' Sucess '+r.toString();
+  }).catch( ()=> {
+      status = 'Error'
+  })
+
+ //  const transporter = nodemailer.createTransport({
+ //    port: 465,
+ //    host: 'email-smtp.us-east-2.amazonaws.com',
+ //    auth: {
+ //      user: 'AKIA5C47THXM3EHY3HUE',
+ //      pass:'BEtC0mddEg/q3quIGzqNZzQi6UdYkjTT6nkoOWHWhUNT'
+ //    }
+ //  });
+ //
+ //  const mailOptions = {
+ //    from: 'support@saajdesigns.com',
+ //    to: 'saajdesigns.info@gmail.com',
+ //    subject: 'Sending Email using Node.js',
+ //    text: 'That was easy!'
+ //  };
+ // let i = 'strt';
+ //  transporter.sendMail(mailOptions, function(error, info){
+ //    if (error) {
+ //      console.log('Email NOT SENT ERROR:')
+ //      console.log(error);
+ //      i = error;
+ //    } else {
+ //      i = info.response;
+ //      console.log('Email sent: ' + info.response);
+ //    }
+ //  });
+//   var transporter = nodemailer.createTransport(ses({
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//     region: process.env.AWS_REGION
+//   }));
+//
+//   transporter.sendMail({
+//     from: 'support@saajdesigns.com',
+//     to: 'saajdesigns.info@gmail.com',
+//     subject: 'My Amazon SES Simple Email',
+//     text: 'Amazon SES Email',
+//     html: '<b>This is some HTML</b>',
+// });
+//
+//   // Add your code here
+//   console.log('Email sent after that: ' );
+   setTimeout(res.json({success: 'post call succeed!', url: req.url, body: {name: 'mail sent now '} }), 3000);
+
+
 });
 
 app.post('/size/*', function(req, res) {
