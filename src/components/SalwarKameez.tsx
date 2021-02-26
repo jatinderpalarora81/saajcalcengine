@@ -1,144 +1,127 @@
 import * as React from "react";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
 import {Storage} from "aws-amplify";
-import {CommonPros} from "../typedef/style";
+import {CommonProps, PatternType} from "../typedef/style";
+import CommonTopFitting from "./common/CommonTopFitting";
+import CustomTooltip from "./common/CutomTooltip";
+import {tooltipTxt} from "../util/tooltipText";
+import {hipSize, lehengaLen, salwarLen, topLength, waistSize} from "../util/sizeOptions";
+import {VimeoVideo} from "./common/VimeoVideo";
 
-export class SalwarKameez extends React.Component<CommonPros, any>{
-    private values: any;
+export class SalwarKameez extends React.Component<CommonProps, any>{
+    private values: SalwarKameez|any;
 
     constructor(props:any) {
         super(props);
-        this.values = {};
-        this.state = {showKameez:false, showSalwar:false}
+        this.values = {'Pattern': PatternType.SalwarKammez};
+        this.state = {howToMeasure:false}
     }
     componentDidMount(): void {
-        Storage.get("kameez.jpg").then( (data) => {
-                this.setState(
-                    {
-                        url1 :  data
-                    })
-            }
-        ).catch(er => console.log('Error',er))
-        Storage.get("salwar.jpg").then( (data) => {
-                this.setState(
-                    {
-                        url2 :  data
-                    })
-            }
-        ).catch(er => console.log('Error',er))
+        // Storage.get("kameez.jpg").then( (data) => {
+        //         this.setState(
+        //             {
+        //                 url1 :  data
+        //             })
+        //     }
+        // ).catch(er => console.log('Error',er))
+        // Storage.get("salwar.jpg").then( (data) => {
+        //         this.setState(
+        //             {
+        //                 url2 :  data
+        //             })
+        //     }
+        // ).catch(er => console.log('Error',er))
     }
-
+    validate(){
+        if(this.props.validateUserInfo()){
+            this.props.postMeasurement(this.values)
+        }
+    }
 
     render(): React.ReactNode {
        return (
            <Container style={{marginTop:'25px'}}>
                <Row>
-                       <Form>
+                       <Form style={{ width:'100%'}}>
                            <h5>Kameez Fitting (in inches):
                                <ButtonGroup toggle className="mb-2">
                                    <ToggleButton
                                        type="checkbox"
                                        variant="link"
-                                       checked={this.state.showKameez}
+                                       checked={this.state.howToMeasure}
                                        value="1"
-                                       onChange={(e) => {this.setState({showKameez: e.currentTarget.checked, showSalwar: false}); }}
+                                       onChange={(e) => {this.setState({howToMeasure: e.currentTarget.checked}); }}
                                    >
                                        How to measure?
                                    </ToggleButton>
                                </ButtonGroup>
                            </h5>
+                           <CommonTopFitting values={this.values}/>
 
-                           <Form.Row className="align-items-center">
-                               <Col>
-                                   <Form.Label>Bust: </Form.Label>
-                                   <Form.Control type="number"
-                                                 onChange={e=>{this.values.bust= e.target.value}}
-                                   />
+                           <Form.Group as={Row} style={{ width:'100%'}}>
+                               <Form.Label >Kurti Length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<CustomTooltip msg={tooltipTxt.Empty}/></Form.Label>
+                               <Col >
+                                   <Form.Control as="select"  onChange={e=>{this.values.topLength= e.target.value}}>
+                                       {topLength.map( i => <option> {i} </option>)}
+                                   </Form.Control>
                                </Col>
-                               <Col>
-                                   <Form.Label>Shoulder Length</Form.Label>
-                                   <Form.Control type="number" onChange={e=>{this.values.shoulderLength= e.target.value}}
-                                   />
-
-                               </Col>
-                               <Col>
-                                   <Form.Label>kameez Length: </Form.Label>
-                                   <Form.Control type="number"  onChange={e=>{this.values.kameezLength= e.target.value}}
-                                   />
-
-                               </Col>
-                               <Col>
-                                   <Form.Label>Arm Hole Size: </Form.Label>
-                                   <Form.Control type="number"    onChange={e=>{this.values.armHoleSize= e.target.value}}
-                                   />
-
-                               </Col>
-                               <Col>
-                                   <Form.Label>AroundArm</Form.Label>
-                                   <Form.Control type="number" onChange={e=>{this.values.aroundArm= e.target.value}}
-                                   />
-                               </Col>
-                           </Form.Row>
+                           </Form.Group>
 
                            <h5 style={{marginTop:'25px'}}>Salwar Fitting (in inches):
-                               <ButtonGroup toggle className="mb-2">
-                                   <ToggleButton
-                                       type="checkbox"
-                                       variant="link"
-                                       checked={this.state.showSalwar}
-                                       value="1"
-                                       onChange={(e) => {this.setState({showSalwar: e.currentTarget.checked, showKameez: false}); }}
-                                   >
-                                       How to measure?
-                                   </ToggleButton>
-                               </ButtonGroup>
-                           </h5>
-                           <Form.Row className="align-items-center">
-                               <Col>
-                                   <Form.Label>Around Thigh Size: </Form.Label>
-                                   <Form.Control type="number"   onChange={e=>{this.values.aroundThigh= e.target.value}}
-                                   />
+                            </h5>
+                           <Form.Group as={Row} style={{ width:'100%'}}>
+                               <Form.Label>Around Hips Size :  <CustomTooltip msg={tooltipTxt.hips}/> </Form.Label>
+                               <Col >
+                                   <Form.Control as="select"  onChange={e=>{this.values.aroundHips= e.target.value}}>
+                                       {hipSize.map( i => <option> {i} </option>)}
+                                   </Form.Control>
                                </Col>
-                               <Col>
-                                   <Form.Label>Salwar Length: </Form.Label>
-                                   <Form.Control type="number"    onChange={e=>{this.values.salwarLength= e.target.value}}
-                                   />
-                               </Col>
-                               <Col>
-                                   <Form.Label>Around Calf Length: </Form.Label>
-                                   <Form.Control type="number"  onChange={e=>{this.values.aroundCalf= e.target.value}}
-                                   />
-                               </Col>
-                               <Col>
-                                   <Form.Label>Around Knee Length: </Form.Label>
-                                   <Form.Control type="number"   onChange={e=>{this.values.aroundKnee= e.target.value}}
-                                   />
-                               </Col>
-                               <Col>
-                                   <Form.Label>Around Waist Size: </Form.Label>
-                                   <Form.Control type="number"   onChange={e=>{this.values.aroundWaist= e.target.value}}
-                                   />
-                               </Col>
+                           </Form.Group>
 
+
+                           <Form.Group as={Row} style={{ width:'100%'}}>
+                               <Form.Label>Around Waist Size :<CustomTooltip msg={tooltipTxt.waist}/></Form.Label>
+                               <Col >
+                                   <Form.Control as="select"  onChange={e=>{this.values.aroundWaist= e.target.value}}>
+                                       {waistSize.map( i => <option> {i} </option>)}
+                                   </Form.Control>
+                               </Col>
+                           </Form.Group>
+
+
+                           <Form.Group as={Row} style={{ width:'100%'}}>
+                               <Form.Label>Salwar Length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <CustomTooltip msg={tooltipTxt.Empty}/> </Form.Label>
+                               <Col >
+                                   <Form.Control as="select"  onChange={e=>{this.values.outseamLength= e.target.value}}>
+                                       {salwarLen.map( i => <option> {i} </option>)}
+                                   </Form.Control>
+                               </Col>
+                           </Form.Group>
+
+
+                           <Form.Row>
+                               <Form.Label>Add Comments &nbsp;&nbsp;:<CustomTooltip msg={tooltipTxt.Empty}/></Form.Label>
+                               <Form.Control as="textarea" rows={2} onChange={e=>{this.values.comments= e.target.value}}/>
                            </Form.Row>
 
-                           <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>alert("You reccomended size is : Free Size")}>
+                           <Button style={{marginTop:'10px', marginRight:'10px'}} variant="primary" type="button" onClick={()=>this.validate()}>
                                Submit
                            </Button>
 
                        </Form>
                </Row>
 
-               <Modal show={this.state.showKameez || this.state.showSalwar} >
+               <Modal show={this.state.howToMeasure } >
                    <Modal.Header closeButton>
                        <Modal.Title>Kammez Salwar Image</Modal.Title>
                    </Modal.Header>
                    <Modal.Body>
-                       { this.state.showKameez && this.state.url1 != '' && <img style={{height:'auto',width:'50%'}} src={ this.state.url1 }/>}
-                       { this.state.showSalwar && this.state.url2 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url2 }/>}
+                       {/*{ this.state.showKameez && this.state.url1 != '' && <img style={{height:'auto',width:'50%'}} src={ this.state.url1 }/>}*/}
+                       {/*{ this.state.showSalwar && this.state.url2 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url2 }/>}*/}
+                       <VimeoVideo id={'515597838'}/>
                    </Modal.Body>
                    <Modal.Footer>
-                       <Button variant="primary" onClick={()=> this.setState({showKameez:false, showSalwar:false})}>
+                       <Button variant="primary" onClick={()=> this.setState({howToMeasure:false})}>
                            Close
                        </Button>
 

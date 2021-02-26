@@ -12,27 +12,32 @@ export enum Size {
 
 type TopStyle = {
     size?:Size,
+    pattern : PatternType,
     bust:number,
-    shoulderLength?: number,
-    sleeveAround?:number,
+    belowBustWaist?:number
+    shoulderWidth?: number,
+    aroundArm_Elbow?:number,
     sleeveLength?:number,
     armHoleSize?:number,
-    aroundWaistForTop:number,
-    topLength : number
+    tucksPoint?:number,
+    frontNeckDepth?:number,
+    backNeckDepth?:number,
+    topLength?: number,
+    pads?:boolean,
+    comments: string
 }
 
 type BottomStyle = {
-    aroundHips:number,
-    aroundThighSize: number,
-    aroundCalfSize: number,
-    aroundKneeSize: number,
-    aroundWaistSize: number,
-    InseamLength : number,
-    OutseamLength : number
+    aroundHips?:number,
+    aroundThighSize?: number,
+    aroundCalfSize?: number,
+    aroundKneeSize?: number,
+    aroundWaistSize?: number,
+    inseamLength? : number,
+    outseamLength? : number
 }
 
 export type BlouseStyle = TopStyle;
-export type CholiStyle = TopStyle;
 
 
 type LehengaStyle ={
@@ -40,16 +45,28 @@ type LehengaStyle ={
     lehengaLength:number,
     aroundWaist:number
 }
-export type LehengaCholiStyle = LehengaStyle & CholiStyle;
 
-export type KameezStyle = {
+export type WesternStyle ={
+    topSize: TopStyle,
+    aroundHips:number,
+    dressLength:number,
+    aroundWaist:number
+}
+
+export type LehengaCholiStyle = LehengaStyle & BlouseStyle;
+
+type KameezStyle = {
     topStyle: TopStyle,
     hipsSize: number
 }
-export type SalwarStyle = BottomStyle;
+export type SalwarKameezStyle = KameezStyle & BottomStyle;
 
-export type PatternType<TYPE> = {
-   types: TYPE[]
+
+export enum PatternType {
+    LehenhaCholi = 'Lehenga Choli',
+    Western = 'Western Dress',
+    SalwarKammez = 'Salwarr Kameez'
+
 }
 
 export type Info = {
@@ -58,17 +75,7 @@ export type Info = {
     phone:string
 }
 
-export interface CommonPros {
-    getInfo(): Info,
-    validateInfo():boolean
-}
-export enum SizeStatus{
-    UNKNOWN,
-    CALCULATED,
-    INVALID
-}
-export type SizeDiffMessage = {
-    diff? : number,
-    message? : string,
-    sizeStatus: SizeStatus
+export interface CommonProps {
+    postMeasurement(measurements:any): boolean,
+    validateUserInfo():boolean
 }

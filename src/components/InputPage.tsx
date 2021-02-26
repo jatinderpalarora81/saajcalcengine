@@ -4,8 +4,9 @@ import {API} from 'aws-amplify'
 import {Lehenga} from "./Lehenga";
 import {Storage} from "aws-amplify"
 import {SalwarKameez} from "./SalwarKameez";
-import {Blouse} from "./Blouse";
+import {Western} from "./Western";
 import {Info} from "../typedef/style";
+import {fileName} from "../util/nameUtil";
 
 interface InputState {
     fileUrl:string
@@ -33,109 +34,100 @@ export class InputPage extends React.Component<any, InputState>{
         })
     }
 
-    async printit(){
-        const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
-        console.log(r)
-        alert(r.body.name);
+     postInfo(val:any){
+        //const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
+        const fName = fileName(this.values);
+         console.log(fName);
+         const selection = JSON.stringify({...this.values, ...val}, null ,4)
+         console.log(selection)
+
+        Storage.put('sizes/'+fName, selection)
+            .then (result => {
+                 const str = "Thank you "+this.values.name+" for submitting your measurement data, you can close this window and continue with your shopping";
+                 alert(str);
+                }
+            ) // {key: "test.txt"}
+            .catch(err => console.log(err));
+
+         return true;
     }
 
-    getInfo(){
-        return this.values;
-    }
     validateInfo():boolean{
         if(this.values.email=== "" && this.values.phone === ""){
             alert(" Please provide your email id or phone number, this will help us to serve you better.")
             return false;
         }
-        this.printit().then((i)=> console.log('Send'));
         return true;
     }
 
     render(){
-        // this.printit();
         return (<Container  style={{width:'80vw', height:'90vh'}}>
             <Row>
                 { this.state.fileUrl != '' && <img style={{height:'auto',width:'300px'}} src={ this.state.fileUrl }/>}
             </Row>
             <Row style={{marginTop:'15px', marginBottom:'20px'}}>
                         <Form>
-                            <Form.Row className="align-items-right">
-                                <Col sm={3} className="my-1">
-                                    <Form.Label>Enter Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Name"
+                            <Form.Group as={Row} style={{ width:'100%'}}>
+                                <Form.Label>Enter Name&nbsp;&nbsp;: </Form.Label>
+                                <Col >
+                                    <Form.Control type="text" placeholder="your name"
                                                   onChange={e=>{this.values.name= e.target.value}}
                                     />
                                 </Col>
-                                <Col sm={3} className="my-1">
-                                    <Form.Label>Email Id</Form.Label>
-                                    <Form.Control type="email" placeholder="email"
+                            </Form.Group>
+                            <Form.Group as={Row} style={{ width:'100%'}}>
+                                <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
+                                <Col >
+                                    <Form.Control type="email" placeholder="your email"
                                                   onChange={e=>{this.values.email= e.target.value}}
                                     />
                                 </Col>
-                                <Col xs="auto" className="my-1">
-                                    <Form.Label>Phone Num</Form.Label>
-                                    <Form.Control type="test" placeholder="Phone"
+                            </Form.Group>
+                            <Form.Group as={Row} style={{ width:'100%'}}>
+                                <Form.Label>Mobile Num : </Form.Label>
+                                <Col >
+                                    <Form.Control type="test" placeholder="mobile number"
                                                   onChange={e=>{this.values.phone= e.target.value}}
                                     />
                                 </Col>
-                            </Form.Row>
+                            </Form.Group>
+
                         </Form>
             </Row>
             <Row ><h3> Choose a Pattern </h3>
-                            <Accordion defaultActiveKey="-1" style={{width:'80vw', marginBottom:'20px'}} >
-                                <Card>
-                                    <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                            Lehenga
-                                        </Accordion.Toggle>
-                                    </Card.Header>
-                                    <Accordion.Collapse eventKey="0">
-                                        <Card.Body><Lehenga getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>
-                                <Card>
-                                    <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                            Blouse
-                                        </Accordion.Toggle>
-                                    </Card.Header>
-                                    <Accordion.Collapse eventKey="1">
-                                        <Card.Body><Blouse getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>
-                                <Card>
-                                    <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                                            Salwar Kameez
-                                        </Accordion.Toggle>
-                                    </Card.Header>
-                                    <Accordion.Collapse eventKey="2">
-                                        <Card.Body> <SalwarKameez getInfo={() => this.getInfo()} validateInfo={()=> this.validateInfo()}/></Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>
-                            </Accordion>
+                <Accordion defaultActiveKey="-1" style={{width:'100%', marginBottom:'20px'}} >
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                Lehenga
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body><Lehenga postMeasurement={(val) => this.postInfo(val)} validateUserInfo={()=> this.validateInfo()}/></Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Western Dress
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                            <Card.Body><Western postMeasurement={(val) => this.postInfo(val)} validateUserInfo={()=> this.validateInfo()}/></Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                                Salwar Kameez
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="2">
+                            <Card.Body> <SalwarKameez postMeasurement={(val) => this.postInfo(val)} validateUserInfo={()=> this.validateInfo()}/></Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                </Accordion>
             </Row>
-                        {/*    <Form.Group controlId="n1">*/}
-                        {/*        <Form.Label style={{marginTop:'20px'}}> <h5>Choose your Pattern: </h5></Form.Label>*/}
-                        {/*        <Form.Control style={{marginTop:'20px'}} as="select"  className="my-1 mr-sm-2"*/}
-                        {/*                      id="inlineFormCustomSelectPref"*/}
-                        {/*                      custom*/}
-                        {/*                      onChange={e=>{this.setState({selection : e.target.value})}}*/}
-                        {/*        >*/}
-                        {/*            <option value="0">Choose an option..</option>*/}
-                        {/*            <option value="1">Lehenga</option>*/}
-                        {/*            <option value="2">Salwar Kameez</option>*/}
-                        {/*            <option value="3">Blouse</option>*/}
-                        {/*        </Form.Control>*/}
-                        {/*    </Form.Group>*/}
-                        {/*</Form>*/}
-
-                    {/*</div>*/}
-
-            {/*<Row>*/}
-            {/*    {this.state.selection === '1' ? (<Lehenga/>) : this.state.selection === '2' ? (<SalwarKameez/>) : this.state.selection === '3' ? <Blouse/> : <div/>}*/}
-
-            {/*</Row>*/}
             <Row>
                 <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>
                     Close

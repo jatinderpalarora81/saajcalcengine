@@ -11,13 +11,16 @@
     "@types/node": "^12.19.8",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
+    "@u-wave/react-vimeo": "^0.9.3",
     "aws-amplify": "^3.3.11",
     "bootstrap": "^4.5.3",
     "nodemailer-ses-transport": "^1.5.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-native-video": "^5.1.1",
     "react-scripts": "4.0.1",
+    "react-vimeo": "^2.0.0",
     "typescript": "^4.1.2",
     "web-vitals": "^0.2.4"
   },
@@ -46,6 +49,15 @@
     ]
   },
   "devDependencies": {
-    "@types/requirejs": "^2.1.32"
-  }
+    "@types/requirejs": "^2.1.32",
+    "react-native-autoheight-webview": "^1.5.8"
+  },
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ]
+  ]
 }

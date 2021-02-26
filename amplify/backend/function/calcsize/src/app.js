@@ -23,7 +23,6 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 
-
 // Enable CORS for all methods
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -55,21 +54,6 @@ app.get('/size/*', function(req, res) {
 ****************************/
 
 app.post('/size', function(req, res) {
-
-  var params= {
-    Message : 'some messag',
-    TopicARN: 'arn:aws:sns:us-east-2:899593485785:S3Update'
-  }
-  let status = "no status "
-  AWS.config.update({region: 'us-east-2'})
-
-  var publishTextParam  = new AWS.SNS( {apiVersion: '2010-03-31'}).createTopic({Name: 'NewTopic1'}).promise();
-
-  publishTextParam.then( (r)=>{
-    status = ' Sucess '+r.toString();
-  }).catch( ()=> {
-      status = 'Error'
-  })
 
  //  const transporter = nodemailer.createTransport({
  //    port: 465,
@@ -113,7 +97,7 @@ app.post('/size', function(req, res) {
 //
 //   // Add your code here
 //   console.log('Email sent after that: ' );
-   setTimeout(res.json({success: 'post call succeed!', url: req.url, body: {name: 'mail sent now '} }), 3000);
+  setTimeout(res.json({success: 'post call succeed!', url: req.url, body: {name: 'mail sent now '} }), 3000);
 
 
 });
