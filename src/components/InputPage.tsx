@@ -36,7 +36,7 @@ export class InputPage extends React.Component<any, InputState>{
 
      postInfo(val:any){
         //const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
-        const fName = fileName(this.values);
+        const fName = fileName(this.values)+'.txt';
          console.log(fName);
          const selection = JSON.stringify({...this.values, ...val}, null ,4)
          console.log(selection)
