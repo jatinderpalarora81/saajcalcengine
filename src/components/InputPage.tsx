@@ -11,7 +11,10 @@ import {ModalPopup} from "./common/ModalPopup";
 
 interface InputState {
     fileUrl:string,
-    msg:string|null
+    msg:string|undefined,
+    header:string|undefined,
+    warningPopup:boolean,
+    closePopup:boolean
 }
 
 export class InputPage extends React.Component<any, InputState>{
@@ -20,7 +23,7 @@ export class InputPage extends React.Component<any, InputState>{
 
     constructor(props:any) {
         super(props);
-        this.state = {fileUrl:'', msg:null};
+        this.state = {fileUrl:'', msg:undefined, header:undefined, warningPopup:false, closePopup:false};
         this.values = {
             name:"",
             email:"",
@@ -41,25 +44,34 @@ export class InputPage extends React.Component<any, InputState>{
         window.close();
     }
 
+    warnIt(){
+        this.setState({warningPopup:false});
+    }
+
      postInfo(val:any){
         //const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
         const fName = fileName(this.values)+'.txt';
          console.log(fName);
          const selection = JSON.stringify({...this.values, ...val}, null ,4)
-
         Storage.put('sizes/'+fName, selection)
             .then (result => {
-                this.setState( {msg :"Thank you "+this.values.name+" for submitting your measurement data, you can close this window and continue with your shopping"} );
+                this.setState( {closePopup:true, header:'Saaj Designs',
+                    msg :"Thank you "+this.values.name+" for submitting your measurement details, our Saaj team will get back to you in case we need any further detail. " +
+                        "You can now close this window and continue with your shopping"} );
                 }
-            )
-            .catch(err => console.log(err));
+            ) 
+            .catch(err => {
+                this.setState( {closePopup:true, header:'Failed to save', msg :"Sorry "+this.values.name+", could not save your details, please try in some time"} )
+                }
+            );
 
          return true;
     }
 
     validateInfo():boolean{
         if(this.values.email=== "" && this.values.phone === ""){
-            alert(" Please provide your email id or phone number, this will help us to serve you better.")
+            this.setState( {warningPopup:true, header:'Saaj Designs', msg :"Dear Customer, please provide your email id or phone number, this will help us to serve you better."} )
+            // alert(" Please provide your email id or phone number, this will help us to serve you better.")
             return false;
         }
         return true;
@@ -134,7 +146,8 @@ export class InputPage extends React.Component<any, InputState>{
                 </Accordion>
             </Row>
             <Row>
-                {this.state.msg !== null && <ModalPopup msg={this.state.msg} action={ ()=>  this.closeIt()} />}
+                {this.state.closePopup  && <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={ ()=>  this.closeIt()} />}
+                {this.state.warningPopup  && <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={ ()=>  this.warnIt()} />}
             </Row>
             <Row>
                 <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>

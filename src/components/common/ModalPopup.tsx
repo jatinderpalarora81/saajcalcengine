@@ -2,7 +2,8 @@ import {Component} from "react";
 import {Button, Modal} from "react-bootstrap";
 
 interface PopupProps {
-    msg:string,
+    msg:string|undefined,
+    headerMsg:string|undefined,
     action():void
 }
 
@@ -13,7 +14,7 @@ export class ModalPopup extends Component<PopupProps, any>{
         this.state = {showIt:true};
     }
 
-    closeIt(){
+    action(){
         this.setState({showIt:false}, ()=> this.props.action())
     }
 
@@ -22,7 +23,7 @@ export class ModalPopup extends Component<PopupProps, any>{
         return (
             <Modal show={this.state.showIt} >
                 <Modal.Header >
-                    <Modal.Title>Saaj Design</Modal.Title>
+                    <Modal.Title>{this.props.headerMsg}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -30,7 +31,7 @@ export class ModalPopup extends Component<PopupProps, any>{
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="primary " onClick={()=> this.closeIt()}>Close</Button>
+                    <Button variant="primary " onClick={()=> this.action()}>Close</Button>
                 </Modal.Footer>
             </Modal>
         )
