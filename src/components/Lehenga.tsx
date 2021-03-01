@@ -146,7 +146,7 @@ export class Lehenga extends React.Component<CommonProps, any>{
             </Row>
             <Modal show={this.state.howToMeasure} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Reference Image</Modal.Title>
+                    <Modal.Title>Reference Video</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
                     {/*{ this.state.showCholi && this.state.url1 != '' && <img style={{height:'auto',width:'100%'}} src={ this.state.url1 }/>}*/}

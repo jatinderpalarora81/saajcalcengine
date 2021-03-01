@@ -7,9 +7,11 @@ import {SalwarKameez} from "./SalwarKameez";
 import {Western} from "./Western";
 import {Info} from "../typedef/style";
 import {fileName} from "../util/nameUtil";
+import {ModalPopup} from "./common/ModalPopup";
 
 interface InputState {
-    fileUrl:string
+    fileUrl:string,
+    msg:string|null
 }
 
 export class InputPage extends React.Component<any, InputState>{
@@ -18,7 +20,7 @@ export class InputPage extends React.Component<any, InputState>{
 
     constructor(props:any) {
         super(props);
-        this.state = {fileUrl:''};
+        this.state = {fileUrl:'', msg:null};
         this.values = {
             name:"",
             email:"",
@@ -34,19 +36,22 @@ export class InputPage extends React.Component<any, InputState>{
         })
     }
 
+    closeIt(){
+        console.log("CLOSING")
+        window.close();
+    }
+
      postInfo(val:any){
         //const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
         const fName = fileName(this.values)+'.txt';
          console.log(fName);
          const selection = JSON.stringify({...this.values, ...val}, null ,4)
-         console.log(selection)
 
         Storage.put('sizes/'+fName, selection)
             .then (result => {
-                 const str = "Thank you "+this.values.name+" for submitting your measurement data, you can close this window and continue with your shopping";
-                 alert(str);
+                this.setState( {msg :"Thank you "+this.values.name+" for submitting your measurement data, you can close this window and continue with your shopping"} );
                 }
-            ) // {key: "test.txt"}
+            )
             .catch(err => console.log(err));
 
          return true;
@@ -99,7 +104,7 @@ export class InputPage extends React.Component<any, InputState>{
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                Lehenga
+                                Lehenga Blouse
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
@@ -127,6 +132,9 @@ export class InputPage extends React.Component<any, InputState>{
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
+            </Row>
+            <Row>
+                {this.state.msg !== null && <ModalPopup msg={this.state.msg} action={ ()=>  this.closeIt()} />}
             </Row>
             <Row>
                 <Button style={{marginTop:'10px'}}variant="secondary" type="button" onClick={()=>window.close()}>

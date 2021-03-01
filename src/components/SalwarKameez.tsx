@@ -113,7 +113,7 @@ export class SalwarKameez extends React.Component<CommonProps, any>{
 
                <Modal show={this.state.howToMeasure } >
                    <Modal.Header closeButton>
-                       <Modal.Title>Kammez Salwar Image</Modal.Title>
+                       <Modal.Title>Kammez Salwar measurement video</Modal.Title>
                    </Modal.Header>
                    <Modal.Body>
                        {/*{ this.state.showKameez && this.state.url1 != '' && <img style={{height:'auto',width:'50%'}} src={ this.state.url1 }/>}*/}

@@ -78,7 +78,7 @@ export class Western extends React.Component<CommonProps, any>{
 
                 <Modal show={this.state.howToMeasure} >
                     <Modal.Header closeButton>
-                        <Modal.Title>Blouse Image</Modal.Title>
+                        <Modal.Title>Blouse Measurement Video</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {/*{ this.state.howToMeasure && this.state.url1 != '' && <img style={{height:'auto',width:'70%'}} src={ this.state.url1 }/>}*/}

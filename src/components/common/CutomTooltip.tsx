@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {Button, Form, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Button, OverlayTrigger, Tooltip} from "react-bootstrap";
 import * as React from "react";
 
 interface CustomTooltipProps {
