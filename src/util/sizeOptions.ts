@@ -10,20 +10,20 @@ const calc = (start:number , end:number, text:string ='Select', increment:number
 }
 
 export const chestSizes = calc(20, 60, );
-export const shoulderWidth = calc(10, 30, 'Select' );
+export const shoulderWidth = calc(10, 35, 'Select' );
 export const topLength = calc(10, 28, );
-export const armHole = calc(10, 30, 'Select');
-export const sleeveLength = calc(0, 25, 'Select', .5 );
+export const fullToplngth = calc(20, 60, );
+export const armHole = calc(10, 35, 'Select');
+export const sleeveLength = calc(0, 35, 'Select', .5 );
 
 
 export const belowBustWaistSize = calc(18, 60);
 export const aroundArm_ElbowSize = calc(5, 20);
-export const tucksPointSize = calc(5, 20);
+export const tucksPointSize = calc(5, 18);
 export const frontNeckDepthSize = calc(5, 15);
 export const backNeckDepthSize = calc(5, 15);
 
 export const hipSize = calc(20, 65);
-export const waistSize = calc(20, 65);
+export const waistSize = calc(20, 60);
 export const lehengaLen = calc(25, 48);
 export const salwarLen = calc(25, 48);
-export const dressLen = calc(25, 48);

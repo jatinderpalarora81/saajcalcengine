@@ -5,7 +5,7 @@ import {CommonProps, PatternType} from "../typedef/style";
 import CommonTopFitting from "./common/CommonTopFitting";
 import CustomTooltip from "./common/CutomTooltip";
 import {tooltipTxt} from "../util/tooltipText";
-import {hipSize, lehengaLen, salwarLen, topLength, waistSize} from "../util/sizeOptions";
+import {fullToplngth, hipSize,  salwarLen,  waistSize} from "../util/sizeOptions";
 import {VimeoVideo} from "./common/VimeoVideo";
 import {ModalPopup} from "./common/ModalPopup";
 import {isInput} from "../util/validator";
@@ -71,7 +71,7 @@ export class SalwarKameez extends React.Component<CommonProps, any>{
                                <Form.Label >Kurti Length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<CustomTooltip msg={tooltipTxt.Empty}/></Form.Label>
                                <Col >
                                    <Form.Control as="select"  onChange={e=>{this.values.topLength= e.target.value}}>
-                                       {topLength.map( i => <option> {i} </option>)}
+                                       {fullToplngth.map( i => <option> {i} </option>)}
                                    </Form.Control>
                                </Col>
                            </Form.Group>

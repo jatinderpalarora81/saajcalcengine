@@ -1,12 +1,12 @@
 
 import * as React from "react";
-import {BlouseStyle, CommonProps, PatternType, WesternStyle} from "../typedef/style";
+import { CommonProps, PatternType, WesternStyle} from "../typedef/style";
 import {Button, ButtonGroup, Col, Container, Form, Modal, Row, ToggleButton} from "react-bootstrap";
 import {Storage} from "aws-amplify"
 import CommonTopFitting from "./common/CommonTopFitting";
 import CustomTooltip from "./common/CutomTooltip";
 import {tooltipTxt} from "../util/tooltipText";
-import {dressLen, lehengaLen} from "../util/sizeOptions";
+import {fullToplngth} from "../util/sizeOptions";
 import {VimeoVideo} from "./common/VimeoVideo";
 import {isInput} from "../util/validator";
 import {ModalPopup} from "./common/ModalPopup";
@@ -67,7 +67,7 @@ export class Western extends React.Component<CommonProps, any>{
                             <Form.Label>Dress Length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<CustomTooltip msg={tooltipTxt.Empty}/> </Form.Label>
                             <Col >
                                 <Form.Control as="select"  onChange={e=>{this.values.dressLength= e.target.value}}>
-                                    {dressLen.map( i => <option> {i} </option>)}
+                                    {fullToplngth.map( i => <option> {i} </option>)}
                                 </Form.Control>
                             </Col>
                         </Form.Group>
