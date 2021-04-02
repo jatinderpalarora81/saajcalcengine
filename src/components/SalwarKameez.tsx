@@ -7,14 +7,17 @@ import CustomTooltip from "./common/CutomTooltip";
 import {tooltipTxt} from "../util/tooltipText";
 import {hipSize, lehengaLen, salwarLen, topLength, waistSize} from "../util/sizeOptions";
 import {VimeoVideo} from "./common/VimeoVideo";
+import {ModalPopup} from "./common/ModalPopup";
+import {isInput} from "../util/validator";
 
 export class SalwarKameez extends React.Component<CommonProps, any>{
     private values: SalwarKameez|any;
+    private msg:string="";
 
     constructor(props:any) {
         super(props);
         this.values = {'Pattern': PatternType.SalwarKammez};
-        this.state = {howToMeasure:false}
+        this.state = {howToMeasure:false,  missingInfo:false}
     }
     componentDidMount(): void {
         // Storage.get("kameez.jpg").then( (data) => {
@@ -34,7 +37,13 @@ export class SalwarKameez extends React.Component<CommonProps, any>{
     }
     validate(){
         if(this.props.validateUserInfo()){
-            this.props.postMeasurement(this.values)
+            const missingList:string[] = isInput("Select", ["bust", "belowBustWaist", "shoulderLength", "armHoleSize", "aroundWaist"], this.values);
+            if( missingList.length > 0){
+                this.setState({missingInfo:true})
+                this.msg= 'We need measurement detail of '+missingList+" to give you best fit, please fill it and submit again"
+            }else {
+                this.props.postMeasurement(this.values)
+            }
         }
     }
 
@@ -109,6 +118,10 @@ export class SalwarKameez extends React.Component<CommonProps, any>{
                            </Button>
 
                        </Form>
+
+                   <Row>
+                       {this.state.missingInfo  && <ModalPopup headerMsg="Missing Info" msg={this.msg} action={ ()=>  this.setState({missingInfo:false})} />}
+                   </Row>
                </Row>
 
                <Modal show={this.state.howToMeasure } >

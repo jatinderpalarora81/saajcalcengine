@@ -8,6 +8,7 @@ import {Western} from "./Western";
 import {Info} from "../typedef/style";
 import {fileName} from "../util/nameUtil";
 import {ModalPopup} from "./common/ModalPopup";
+import {isEmail, isPhoneNumber} from "../util/validator";
 
 interface InputState {
     fileUrl:string,
@@ -69,9 +70,8 @@ export class InputPage extends React.Component<any, InputState>{
     }
 
     validateInfo():boolean{
-        if(this.values.email=== "" && this.values.phone === ""){
-            this.setState( {warningPopup:true, header:'Saaj Designs', msg :"Dear Customer, please provide your email id or phone number, this will help us to serve you better."} )
-            // alert(" Please provide your email id or phone number, this will help us to serve you better.")
+        if( (this.values.email=== "" || !isEmail(this.values.email) ) &&  (this.values.phone === "" )){
+            this.setState( {warningPopup:true, header:'Saaj Designs', msg :"Dear Customer, please provide a valid email id or phone number, this will help us to serve you better."} )
             return false;
         }
         return true;
@@ -81,6 +81,9 @@ export class InputPage extends React.Component<any, InputState>{
         return (<Container  style={{width:'80vw', height:'90vh'}}>
             <Row>
                 { this.state.fileUrl != '' && <img style={{height:'auto',width:'300px'}} src={ this.state.fileUrl }/>}
+            </Row>
+            <Row>
+                <h5>Customize Measurement Form</h5>
             </Row>
             <Row style={{marginTop:'15px', marginBottom:'20px'}}>
                         <Form>
@@ -103,7 +106,7 @@ export class InputPage extends React.Component<any, InputState>{
                             <Form.Group as={Row} style={{ width:'100%'}}>
                                 <Form.Label>Mobile Num : </Form.Label>
                                 <Col >
-                                    <Form.Control type="test" placeholder="mobile number"
+                                    <Form.Control type="number" placeholder="mobile number"
                                                   onChange={e=>{this.values.phone= e.target.value}}
                                     />
                                 </Col>
@@ -111,12 +114,12 @@ export class InputPage extends React.Component<any, InputState>{
 
                         </Form>
             </Row>
-            <Row ><h3> Choose a Pattern </h3>
+            <Row ><h5> Choose a Pattern </h5>
                 <Accordion defaultActiveKey="-1" style={{width:'100%', marginBottom:'20px'}} >
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                Lehenga Blouse
+                                Lehenga Choli/Skirt Blouse
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
@@ -136,7 +139,7 @@ export class InputPage extends React.Component<any, InputState>{
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                                Salwar Kameez
+                                Salwar/Dhoti Kameez
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="2">
