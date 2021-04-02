@@ -119,7 +119,7 @@ export class InputPage extends React.Component<any, InputState>{
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                Lehenga Choli/Skirt Blouse
+                                Lehenga Choli/Blouse/Shirt
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
@@ -129,7 +129,7 @@ export class InputPage extends React.Component<any, InputState>{
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                Western Dress
+                                Western (Dress, Gown)
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="1">
