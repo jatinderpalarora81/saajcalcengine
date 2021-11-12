@@ -16,7 +16,7 @@ type TopStyle = {
     bust:number,
     belowBustWaist?:number
     shoulderWidth?: number,
-    aroundArm_Elbow?:number,
+    aroundArm?:number,
     sleeveLength?:number,
     armHoleSize?:number,
     tucksPoint?:number,
@@ -39,6 +39,17 @@ type BottomStyle = {
 
 export type BlouseStyle = TopStyle;
 
+export type GenericMeasurements = {
+    height: number,
+    bust:number,
+    shoulderWidth?: number,
+    aroundArm?:number,
+    sleeveLength?:number,
+    armHoleSize?:number,
+    aroundWaist?: number,
+    aroundHips?:number,
+    aroundThighSize?: number,
+}
 
 type LehengaStyle ={
     aroundHips:number,
@@ -54,6 +65,7 @@ export type WesternStyle ={
 }
 
 export type LehengaCholiStyle = LehengaStyle & BlouseStyle;
+
 
 type KameezStyle = {
     topStyle: TopStyle,
@@ -77,5 +89,6 @@ export type Info = {
 
 export interface CommonProps {
     postMeasurement(measurements:any): boolean,
-    validateUserInfo():boolean
+    validateUserInfo():boolean,
+    close(): void
 }
