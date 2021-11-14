@@ -137,7 +137,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                     </Form.Group>
 
                     <Form.Group as={Row} style={{width: '100%'}}>
-                        <Form.Label>Arm Hole Size :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<CustomTooltip
+                        <Form.Label>Arm Hole Size :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<CustomTooltip
                             msg={tooltipTxt.armHole}/> </Form.Label>
                         <Col>
                             <Form.Control as="select" onChange={e => {
@@ -149,7 +149,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                     </Form.Group>
 
                     <Form.Group as={Row} style={{width: '100%'}}>
-                        <Form.Label>Around Arm Size :&nbsp;&nbsp;<CustomTooltip msg={tooltipTxt.aroundArm}/>
+                        <Form.Label>Around Arm Size :&nbsp;<CustomTooltip msg={tooltipTxt.aroundArm}/>
                         </Form.Label>
                         <Col>
                             <Form.Control as="select" onChange={e => {
