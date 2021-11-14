@@ -77,19 +77,18 @@ export class InputPage extends React.Component<any, InputState>{
     render(){
         return (<Container  style={{width:'80vw', height:'90vh'}}>
             <Row>
-                <h5 style={{color:'orange', marginTop:'5px'}}>Saaj Designs Customize Measurement Form</h5>
+                <h5 style={{color:'orange', marginTop:'10px'}}>Saaj Designs Customize Measurement Form</h5>
             </Row>
-            <Row style={{marginTop:'15px', marginBottom:'20px'}}>
+            <Row style={{marginTop:'10px'}}>
                         <Form>
                             <Form.Group as={Row} style={{ width:'100%'}}>
                                 <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
                                 <Col >
-                                    <Form.Control type="email" placeholder="Your Email-Id"
+                                    <Form.Control type="email" placeholder="Your Email-id"
                                                   onChange={e=>{this.values.email= e.target.value}}
                                     />
                                 </Col>
                             </Form.Group>
-
                         </Form>
             </Row>
             <Row >

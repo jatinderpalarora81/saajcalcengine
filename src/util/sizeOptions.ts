@@ -20,11 +20,12 @@ const calcInchesFeet = (start:number , end:number, text:string ='Select', increm
 }
 
 export const chestSizes = calcInchesCM(20, 60, );
-export const bodyHeight = calcInchesFeet(20, 72, 'Select', 1);
+export const bodyHeight = calcInchesFeet(24, 72, 'Select', 1);
 export const shoulderWidth = calcInchesCM(10, 35, 'Select' );
 export const topLength = calcInchesCM(10, 28, );
 export const fullToplngth = calcInchesCM(20, 60, );
 export const armHole = calcInchesCM(10, 35, 'Select');
+export const thighCircum = calcInchesCM(20, 60, 'Select');
 export const sleeveLength = calcInchesCM(0, 35, 'Select', .5 );
 
 

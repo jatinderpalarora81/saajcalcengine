@@ -49,6 +49,7 @@ export type GenericMeasurements = {
     aroundWaist?: number,
     aroundHips?:number,
     aroundThighSize?: number,
+    thighSize?: number
 }
 
 type LehengaStyle ={

@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import {CommonProps, GenericMeasurements, LehengaCholiStyle, PatternType} from "../typedef/style";
+import {CommonProps, GenericMeasurements} from "../typedef/style";
 import {
     Button,
     ButtonGroup,
@@ -9,15 +9,11 @@ import {
     Form,
     Modal,
     Row,
-    ToggleButton,
-    Tooltip
+    ToggleButton
 } from "react-bootstrap";
-import {Storage} from "aws-amplify"
 import {
-    topLength,
     hipSize,
-    lehengaLen,
-    waistSize, chestSizes, armHole, shoulderWidth, aroundArm, bodyHeight
+    waistSize, chestSizes, armHole, shoulderWidth, aroundArm, bodyHeight, thighCircum
 } from "../util/sizeOptions";
 import {VimeoVideo} from "./common/VimeoVideo";
 import CustomTooltip from "./common/CutomTooltip";
@@ -43,13 +39,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
         //          })
         //      }
         // ).catch(er => console.log('Error',er))
-        // Storage.get("SKIRT.png").then( (data) => {
-        //         this.setState(
-        //             {
-        //                 url2 :  data
-        //             })
-        //     }
-        // ).catch(er => console.log('Error',er))
+
     }
 
     validate(){
@@ -65,7 +55,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
     }
 
     render(): React.ReactNode {
-        return (<Container style={{marginTop: '5px'}}>
+        return (<Container >
 
             <Row>
                 <ButtonGroup toggle className="mb-2">
@@ -135,6 +125,18 @@ export class GenericInput extends React.Component<CommonProps, any>{
 
 
                     <Form.Group as={Row} style={{width: '100%'}}>
+                        <Form.Label>Thigh Size :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<CustomTooltip
+                            msg={tooltipTxt.thigh}/> </Form.Label>
+                        <Col>
+                            <Form.Control as="select" onChange={e => {
+                                this.values.thighSize = e.target.value
+                            }}>
+                                {thighCircum.map(i => <option> {i} </option>)}
+                            </Form.Control>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} style={{width: '100%'}}>
                         <Form.Label>Arm Hole Size :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<CustomTooltip
                             msg={tooltipTxt.armHole}/> </Form.Label>
                         <Col>
@@ -172,7 +174,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
 
                     <Form.Row>
                         <Form.Label>Add Comments :&nbsp;&nbsp;<CustomTooltip msg={tooltipTxt.Empty}/></Form.Label>
-                        <Form.Control as="textarea" rows={2} onChange={e => {
+                        <Form.Control as="textarea" rows={1} onChange={e => {
                             this.values.comments = e.target.value
                         }}/>
                     </Form.Row>
@@ -198,7 +200,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                     <Modal.Title>Reference Video</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <VimeoVideo id={'515597635'}/>
+                    <VimeoVideo id={'645688653'}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => this.setState({howToMeasure: false})}>
