@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Storage} from "aws-amplify"
-import {Info} from "../typedef/style";
+import {GenericMeasurements, Info} from "../typedef/style";
 import {fileName} from "../util/nameUtil";
 import {ModalPopup} from "./common/ModalPopup";
 import {isEmail} from "../util/validator";
@@ -13,6 +13,7 @@ interface InputState {
     header:string|undefined,
     warningPopup:boolean,
     closePopup:boolean
+    initialMeasValues: GenericMeasurements|any;
 }
 
 export class InputPage extends React.Component<any, InputState>{
@@ -21,7 +22,7 @@ export class InputPage extends React.Component<any, InputState>{
 
     constructor(props:any) {
         super(props);
-        this.state = {fileUrl:'', msg:undefined, header:undefined, warningPopup:false, closePopup:false};
+        this.state = {fileUrl:'', msg:undefined, header:undefined, warningPopup:false, closePopup:false, initialMeasValues: undefined};
         this.values = {
             name:"",
             email:"",
@@ -48,7 +49,7 @@ export class InputPage extends React.Component<any, InputState>{
 
      postInfo(val:any){
         //const r = await API.post('sizeapi', '/size', {body: {name:"Jatin"}});
-        const fName = fileName(this.values)+'.txt';
+        const fName = fileName(this.values);
          console.log(fName);
          const selection = JSON.stringify({...this.values, ...val}, null ,4)
         Storage.put('sizes/'+fName, selection)
@@ -74,30 +75,89 @@ export class InputPage extends React.Component<any, InputState>{
         return true;
     }
 
+    fetchAndFill():void{
+        if(this.validateInfo()) {
+            const fName = fileName(this.values);
+            const obj  = this;
+            Storage.get('sizes/'+fName).then(url =>{
+
+                console.log('filena,e ;',fName)
+                console.log(url)
+                fetch(url.toString())
+                    .then(function (response) {
+                         // console.log(response.json())
+                      response.json()
+                          .then(d => {console.log(d); obj.setState({initialMeasValues:{...d}})})
+                          .catch( function (err) {
+                              console.log("failed to load ");
+                              obj.setState({initialMeasValues:{}});
+                              console.log("failed to load---");
+                          });
+                        return response.body;
+                    })
+                    .catch(function (err) {
+                        console.log("failed to load ");
+                    });
+
+            }).catch(
+                function (err) {
+                    console.log("failed to load ");
+                    obj.setState({initialMeasValues:{}});
+                }
+            )
+        }
+    }
+
     render(){
         return (<Container  style={{width:'80vw', height:'90vh'}}>
             <Row>
                 <h5 style={{color:'orange', marginTop:'10px'}}>Saaj Designs Customize Measurement Form</h5>
             </Row>
-            <Row style={{marginTop:'10px'}}>
-                        <Form>
-                            <Form.Group as={Row} style={{ width:'100%'}}>
-                                <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
-                                <Col >
-                                    <Form.Control type="email" placeholder="Your Email-id"
-                                                  onChange={e=>{this.values.email= e.target.value}}
-                                    />
-                                </Col>
-                            </Form.Group>
-                        </Form>
+            {!this.state.initialMeasValues &&
+            <Row style={{marginTop: '10px'}}>
+                <Row>
+                    <Form>
+                        <Form.Group as={Row} style={{width: '100%'}}>
+                            <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
+                            <Col>
+                                <Form.Control type="email" placeholder="Your Email-id"
+                                              onChange={e => {
+                                                  this.values.email = e.target.value
+                                              }}
+                                              onBlur={() => {
+                                                  console.log('Hello')
+                                              }}
+                                />
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                    <Button style={{ marginRight: '10px'}} variant="primary" type="button"
+                            onClick={() => this.fetchAndFill()}>
+                        Next
+                    </Button>
+
+                    <Button style={{ marginRight: '10px'}} variant="secondary" type="button"
+                            onClick={() => this.closeIt()}>
+                        Close
+                    </Button>
+                </Row>
+                <Row  style={{marginTop:'30px'}}>
+                    {this.state.closePopup &&
+                    <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.closeIt()}/>}
+                    {this.state.warningPopup &&
+                    <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.warnIt()}/>}
+                </Row>
+                <Row style={{marginTop:'35px'}}>
+
+                </Row>
             </Row>
-            <Row >
-                <GenericInput postMeasurement={(val) => this.postInfo(val)} validateUserInfo={()=> this.validateInfo()} close={()=> this.closeIt()}/>
-            </Row>
+            }
+            {this.state.initialMeasValues &&
             <Row>
-                {this.state.closePopup  && <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={ ()=>  this.closeIt()} />}
-                {this.state.warningPopup  && <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={ ()=>  this.warnIt()} />}
+                <GenericInput postMeasurement={(val) => this.postInfo(val)} validateUserInfo={() => this.validateInfo()}
+                              close={() => this.closeIt()} initialVal={this.state.initialMeasValues}/>
             </Row>
+            }
 
         </Container>);
     }

@@ -49,7 +49,8 @@ export type GenericMeasurements = {
     aroundWaist?: number,
     aroundHips?:number,
     aroundThighSize?: number,
-    thighSize?: number
+    thighSize?: number,
+    comments?: string
 }
 
 type LehengaStyle ={
@@ -91,5 +92,6 @@ export type Info = {
 export interface CommonProps {
     postMeasurement(measurements:any): boolean,
     validateUserInfo():boolean,
-    close(): void
+    close(): void,
+    initialVal:GenericMeasurements
 }

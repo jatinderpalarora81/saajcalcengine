@@ -27,7 +27,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
 
     constructor(props:any) {
         super(props);
-        this.values = {};
+        this.values = {...props.initialVal};
         this.state = {howToMeasure:false, missingInfo:false}
     }
 
@@ -80,7 +80,8 @@ export class GenericInput extends React.Component<CommonProps, any>{
                             <Form.Control as="select"
                                           onChange={e => {
                                               this.values.height = e.target.value
-                                          }}>
+                                          }}
+                                          value={this.props.initialVal.height}>
                                 {bodyHeight.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -93,7 +94,8 @@ export class GenericInput extends React.Component<CommonProps, any>{
                             <Form.Control as="select"
                                           onChange={e => {
                                               this.values.bust = e.target.value
-                                          }}>
+                                          }}
+                                          value={this.props.initialVal.bust}>
                                 {chestSizes.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -105,7 +107,8 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Col>
                             <Form.Control as="select" onChange={e => {
                                 this.values.aroundWaist = e.target.value
-                            }}>
+                            }}  value={this.props.initialVal.aroundWaist}
+                            >
                                 {waistSize.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -117,7 +120,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Col>
                             <Form.Control as="select" onChange={e => {
                                 this.values.aroundHips = e.target.value
-                            }}>
+                            }}  value={this.props.initialVal.aroundHips}>
                                 {hipSize.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -130,7 +133,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Col>
                             <Form.Control as="select" onChange={e => {
                                 this.values.thighSize = e.target.value
-                            }}>
+                            }}  value={this.props.initialVal.thighSize}>
                                 {thighCircum.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -142,7 +145,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Col>
                             <Form.Control as="select" onChange={e => {
                                 this.values.armHoleSize = e.target.value
-                            }}>
+                            }}  value={this.props.initialVal.armHoleSize}>
                                 {armHole.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -154,7 +157,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Col>
                             <Form.Control as="select" onChange={e => {
                                 this.values.aroundArm = e.target.value
-                            }}>
+                            }}  value={this.props.initialVal.aroundArm}>
                                 {aroundArm.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -165,8 +168,8 @@ export class GenericInput extends React.Component<CommonProps, any>{
                             msg={tooltipTxt.shoulder}/></Form.Label>
                         <Col>
                             <Form.Control as="select" onChange={e => {
-                                this.values.shoulderLength = e.target.value
-                            }}>
+                                this.values.shoulderWidth = e.target.value
+                            }}  value={this.props.initialVal.shoulderWidth}>
                                 {shoulderWidth.map(i => <option> {i} </option>)}
                             </Form.Control>
                         </Col>
@@ -176,7 +179,7 @@ export class GenericInput extends React.Component<CommonProps, any>{
                         <Form.Label>Add Comments :&nbsp;&nbsp;<CustomTooltip msg={tooltipTxt.Empty}/></Form.Label>
                         <Form.Control as="textarea" rows={1} onChange={e => {
                             this.values.comments = e.target.value
-                        }}/>
+                        }}  value={this.props.initialVal.comments}/>
                     </Form.Row>
 
                     <Button style={{marginTop: '10px', marginRight: '10px'}} variant="primary" type="button"
