@@ -113,51 +113,47 @@ export class InputPage extends React.Component<any, InputState>{
             <Row>
                 <h5 style={{color:'orange', marginTop:'10px'}}>Saaj Designs Customize Measurement Form</h5>
             </Row>
-            {!this.state.initialMeasValues &&
-            <Row style={{marginTop: '10px'}}>
-                <Row>
-                    <Form>
-                        <Form.Group as={Row} style={{width: '100%'}}>
-                            <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
-                            <Col>
-                                <Form.Control type="email" placeholder="Your Email-id"
-                                              onChange={e => {
-                                                  this.values.email = e.target.value
-                                              }}
-                                              onBlur={() => {
-                                                  console.log('Hello')
-                                              }}
-                                />
-                            </Col>
-                        </Form.Group>
-                    </Form>
-                    <Button style={{ marginRight: '10px'}} variant="primary" type="button"
-                            onClick={() => this.fetchAndFill()}>
-                        Next
-                    </Button>
+            { !this.state.initialMeasValues && <Row style={{marginTop: '10px'}}>
+                <Form>
+                    <Form.Group as={Row} style={{width: '100%'}}>
+                        <Form.Label>Email Id &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </Form.Label>
+                        <Col>
+                            <Form.Control type="email" placeholder="Your Email-id"
+                                          onChange={e => {
+                                              this.values.email = e.target.value
+                                          }}
+                                          onBlur={() => {
+                                              console.log('Hello')
+                                          }}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+                <Button style={{ marginRight: '10px'}} variant="primary" type="button"
+                        onClick={() => this.fetchAndFill()}>
+                    Next
+                </Button>
 
-                    <Button style={{ marginRight: '10px'}} variant="secondary" type="button"
-                            onClick={() => this.closeIt()}>
-                        Close
-                    </Button>
-                </Row>
-                <Row  style={{marginTop:'30px'}}>
-                    {this.state.closePopup &&
-                    <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.closeIt()}/>}
-                    {this.state.warningPopup &&
-                    <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.warnIt()}/>}
-                </Row>
-                <Row style={{marginTop:'35px'}}>
-
-                </Row>
+                <Button style={{ marginRight: '10px'}} variant="secondary" type="button"
+                        onClick={() => this.closeIt()}>
+                    Close
+                </Button>
             </Row>
             }
+
             {this.state.initialMeasValues &&
             <Row>
                 <GenericInput postMeasurement={(val) => this.postInfo(val)} validateUserInfo={() => this.validateInfo()}
                               close={() => this.closeIt()} initialVal={this.state.initialMeasValues}/>
             </Row>
             }
+
+            <Row  style={{marginTop:'30px'}}>
+                {this.state.closePopup &&
+                <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.closeIt()}/>}
+                {this.state.warningPopup &&
+                <ModalPopup headerMsg={this.state.header} msg={this.state.msg} action={() => this.warnIt()}/>}
+            </Row>
 
         </Container>);
     }
